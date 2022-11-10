@@ -28,9 +28,8 @@ sed -i "1i$header" $podfile $physfile
 # count number of surnames starting with a given letter, and find max count
 maxcount=1
 maxletter=A
-tail -n+2 $file > noheadfile
 for c in {A..Z}; do
-    count=$(grep -c "^$c" noheadfile)
+    count=$(tail -n+2 $file | grep -c "^$c")
     echo "$c --> $count"
     if [ "$count" -gt "$maxcount" ]; then
         maxcount=$count
@@ -58,6 +57,4 @@ while IFS='' read -r line; do
     fi
     echo $line >> students/group$(printf %02d $groupnum).csv
     count=$(($count + 1))
-done < noheadfile
-
-rm noheadfile
+done < <(tail -n+2 $file)
