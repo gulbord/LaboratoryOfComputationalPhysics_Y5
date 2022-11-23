@@ -34,3 +34,12 @@ done < data.txt
 echo "There are $even even numbers"
 echo "There are $gtsqrt entries with sqrt(X^2 + Y^2 + Z^2) > 50 * sqrt(3)"
 echo "There are $ltsqrt entries with sqrt(X^2 + Y^2 + Z^2) <= 50 * sqrt(3)"
+
+while IFS=',' read -a nums; do # read numbers in array
+    for numfile in $(seq 1 $1); do # loop from 1 to input number
+        touch data$(printf %02d $numfile).txt
+        for num in ${nums[@]}; do
+            echo $((num / numfile)) >> data$(printf %02d $numfile).txt
+        done
+    done
+done < data.txt
